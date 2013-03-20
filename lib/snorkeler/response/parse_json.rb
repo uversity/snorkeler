@@ -6,6 +6,7 @@ module Snorkeler
     class ParseJson < Faraday::Response::Middleware
 
       def parse(body)
+
         case body
           # WTF is this matching exactly? -JD
         when /\A^\s*$\z/, nil

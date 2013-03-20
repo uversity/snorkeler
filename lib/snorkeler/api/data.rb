@@ -7,10 +7,8 @@ require 'snorkeler/error/not_found'
 module Snorkeler
   module API
     module Data
-      def import dataset, subset, samples
-        send(:post, "/data/import", {dataset: dataset,
-                                     subset: subset,
-                                     samples: samples}).env[:body]
+      def import params
+        send(:post, "/data/import", params).env[:body]
       end
     end
   end

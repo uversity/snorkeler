@@ -31,7 +31,7 @@ module Snorkeler
       # Handle 5xx server responses
       builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ServerError
       # Set Faraday's HTTP adapter
-      builder.adapter :typhoeus
+      builder.adapter Faraday.default_adapter
     end unless defined? Snorkeler::Default::MIDDLEWARE
 
     class << self

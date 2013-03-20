@@ -60,6 +60,5 @@ module Snorkeler
     def connection
       @connection ||= Faraday.new(@endpoint, @connection_options.merge(:builder => @middleware))
     end
-
   end
 end
