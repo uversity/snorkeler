@@ -9,7 +9,7 @@ describe Snorkeler do
         # Handle 4xx server responses
         builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ClientError
         # Parse JSON response bodies using MultiJson
-        builder.use Snorkeler::Response::ParseJson
+        builder.use Snorkeler::Response::ParseSnorkleResponse
         # Handle 5xx server responses
         builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ServerError
         # Set Faraday's HTTP adapter

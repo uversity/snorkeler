@@ -2,7 +2,7 @@ require 'faraday'
 require 'snorkeler/configurable'
 require 'snorkeler/error/client_error'
 require 'snorkeler/error/server_error'
-require 'snorkeler/response/parse_json'
+require 'snorkeler/response/parse_snorkle_response'
 require 'snorkeler/response/raise_error'
 require 'snorkeler/version'
 
@@ -27,7 +27,7 @@ module Snorkeler
       # Handle 4xx server responses
       builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ClientError
       # Parse JSON response bodies using MultiJson
-      builder.use Snorkeler::Response::ParseJson
+      builder.use Snorkeler::Response::ParseSnorkleResponse
       # Handle 5xx server responses
       builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ServerError
       # Set Faraday's HTTP adapter
