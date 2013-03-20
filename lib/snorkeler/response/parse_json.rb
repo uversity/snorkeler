@@ -6,12 +6,14 @@ module Snorkeler
     class ParseJson < Faraday::Response::Middleware
 
       def parse(body)
-        #binding.pry
         case body
+          # WTF is this matching exactly? -JD
         when /\A^\s*$\z/, nil
           nil
         when /ERRORINSERTED/
           {message: "INSERTED"}
+        when /ERROR/
+          {message: "ERROR"}
         else
           MultiJson.decode(body, :symbolize_keys => true)
         end
@@ -22,7 +24,6 @@ module Snorkeler
           env[:body] = parse(env[:body]) unless [204, 301, 302, 304].include?(env[:status])
         end
       end
-
     end
   end
 end

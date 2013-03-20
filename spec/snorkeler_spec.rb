@@ -25,26 +25,38 @@ describe Snorkeler do
   end
 
   describe ".import" do
-    let (:samples) do
-      [
-        {
-          integer: {
-            query_duration: 500,
-            query_count: 10,
-            weight: 1000,
-          },
-          string: {
-            table: 'a_mysql_table',
-            query_str: 'select * from <TABLE>;',
-            host: 'mysql001'
-          },
-          set: {
-            flags: ['foo', 'bar', 'baz']
+    describe "success" do
+      let (:samples) do
+        [
+          {
+            integer: {
+              query_duration: 500,
+              query_count: 10,
+              weight: 1000,
+            },
+            string: {
+              table: 'a_mysql_table',
+              query_str: 'select * from <TABLE>;',
+              host: 'mysql001'
+            },
+            set: {
+              flags: ['foo', 'bar', 'baz']
+            }
           }
-        }
-      ]
+        ]
+      end
+      subject { Snorkeler.import "psql", "slow_queries", samples}
+      it { should == {message: "INSERTED"}}
     end
-    subject { Snorkeler.import "psql", "slow_queries", samples}
-    it { should == ""}
+    describe "fail" do
+      describe "empty data set" do
+        let (:samples) do
+          [
+          ]
+        end
+        subject { Snorkeler.import "psql", "slow_queries", samples}
+        it { should == {message: "ERROR"}}
+      end
+    end
   end
 end
