@@ -1,5 +1,11 @@
 require "snorkeler/version"
+require 'snorkeler/configurable'
 
 module Snorkeler
-  # Your code goes here...
+  class << self
+    include Snorkeler::Configurable
+
+  end
 end
+
+# Snorkeler.setup
