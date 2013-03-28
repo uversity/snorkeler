@@ -17,7 +17,6 @@ module Snorkeler
         @klass = klass
         super(app)
       end
-
     end
   end
 end

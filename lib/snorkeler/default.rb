@@ -1,4 +1,5 @@
 require 'faraday'
+require 'faraday_middleware'
 require 'snorkeler/configurable'
 require 'snorkeler/error/client_error'
 require 'snorkeler/error/server_error'
@@ -23,7 +24,8 @@ module Snorkeler
       },
     } unless defined? Snorkeler::Default::CONNECTION_OPTIONS
     MIDDLEWARE = Faraday::Builder.new do |builder|
-      # Checks for files in the payload
+      # Encode Json
+      builder.use FaradayMiddleware::EncodeJson
       # Handle 4xx server responses
       builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ClientError
       # Parse JSON response bodies using MultiJson
@@ -41,7 +43,6 @@ module Snorkeler
         Hash[Snorkeler::Configurable.keys.map{|key| [key, send(key)]}]
       end
 
-
       # @return [String]
       def endpoint
         ENDPOINT
@@ -58,7 +59,6 @@ module Snorkeler
       def middleware
         MIDDLEWARE
       end
-
     end
   end
 end

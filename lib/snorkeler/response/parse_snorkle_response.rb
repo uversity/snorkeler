@@ -6,14 +6,12 @@ module Snorkeler
     class ParseSnorkleResponse < Faraday::Response::Middleware
 
       def parse(body)
-
         case body
-          # WTF is this matching exactly? -JD
-        when /\A^\s*$\z/, nil
-          nil
         when /INSERTED/
           {message: "INSERTED"}
         when /ERROR/
+          {message: "ERROR"}
+        when /TypeError/
           {message: "ERROR"}
         else
           {message: "NORESPONSE"}
