@@ -4,17 +4,6 @@ describe Snorkeler do
   before do
     Snorkeler.configure do |config|
       config.endpoint = "http://localhost:3001"
-      config.middleware = Faraday::Builder.new do |builder|
-        # Checks for files in the payload
-        # Handle 4xx server responses
-        builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ClientError
-        # Parse JSON response bodies using MultiJson
-        builder.use Snorkeler::Response::ParseSnorkleResponse
-        # Handle 5xx server responses
-        builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ServerError
-        # Set Faraday's HTTP adapter
-        builder.adapter :typhoeus
-      end
     end
   end
   describe "self" do
@@ -43,10 +32,10 @@ describe Snorkeler do
           [
             {
               integer: {
-                time:  100,
-                query_duration: 500,
-                query_count: 10,
-                weight: 1000,
+                time:  "100",
+                query_duration: "500",
+                query_count: "10",
+                weight: "1000",
               },
               string: {
                 table: 'a_mysql_table',
@@ -62,19 +51,19 @@ describe Snorkeler do
         subject { Snorkeler.import dataset: "psql", subset: "slow_queries", samples: samples}
         it { should == {message: "INSERTED"} }
       end
-      describe "nil data set" do
-        use_vcr_cassette
-        let (:samples) { nil }
-        subject { Snorkeler.import dataset: "psql", subset: "slow_queries", samples: samples}
-        it { should == {message: "INSERTED"} }
-      end
-    end
-    describe "fail" do
       describe "empty data set" do
         use_vcr_cassette
         let (:samples) {[] }
         subject { Snorkeler.import dataset: "psql", subset: "slow_queries", samples: samples}
-        it { should == {message: "ERROR"}}
+        it { should == {message: "INSERTED"}}
+      end
+    end
+    describe "fail" do
+      describe "nil data set" do
+        use_vcr_cassette
+        let (:samples) { nil }
+        subject { Snorkeler.import dataset: "psql", subset: "slow_queries", samples: samples}
+        it { should == {message: "NORESPONSE"} }
       end
     end
   end

@@ -22,6 +22,8 @@ Gem::Specification.new do |gem|
 
   # runtime dependencies
   gem.add_dependency 'faraday', ['~> 0.8', '< 0.10']
+  gem.add_dependency 'faraday_middleware', ['~> 0.9.0']
+
   gem.add_dependency 'multi_json', '~> 1.0'
   gem.add_dependency 'typhoeus', '~> 0.6.2'
 
@@ -31,5 +33,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "rspec", ["~> 2.13.0"]
   gem.add_development_dependency 'vcr', '~> 2.1.1'
   gem.add_development_dependency 'fakeweb', '~> 1.3.0'
+  gem.add_development_dependency 'pry', '~> 0.9.12'
 
 end

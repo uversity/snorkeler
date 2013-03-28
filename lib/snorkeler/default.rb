@@ -1,7 +1,9 @@
 require 'faraday'
+require 'faraday_middleware'
 require 'snorkeler/configurable'
 require 'snorkeler/error/client_error'
 require 'snorkeler/error/server_error'
+require 'snorkeler/request/json_params'
 require 'snorkeler/response/parse_snorkle_response'
 require 'snorkeler/response/raise_error'
 require 'snorkeler/version'
@@ -23,13 +25,18 @@ module Snorkeler
       },
     } unless defined? Snorkeler::Default::CONNECTION_OPTIONS
     MIDDLEWARE = Faraday::Builder.new do |builder|
+
+      # Encode Json
+      builder.use FaradayMiddleware::EncodeJson
       # Checks for files in the payload
+      builder.use Faraday::Response::Logger
       # Handle 4xx server responses
       builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ClientError
       # Parse JSON response bodies using MultiJson
       builder.use Snorkeler::Response::ParseSnorkleResponse
       # Handle 5xx server responses
       builder.use Snorkeler::Response::RaiseError, Snorkeler::Error::ServerError
+
       # Set Faraday's HTTP adapter
       builder.adapter Faraday.default_adapter
     end unless defined? Snorkeler::Default::MIDDLEWARE
