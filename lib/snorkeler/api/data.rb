@@ -1,5 +1,3 @@
-require 'snorkeler/api/arguments'
-require 'snorkeler/snorkel_response'
 require 'snorkeler/error/forbidden'
 require 'snorkeler/error/not_found'
 

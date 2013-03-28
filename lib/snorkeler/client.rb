@@ -9,7 +9,7 @@ require 'snorkeler/error/decode_error'
 require 'uri'
 
 module Snorkeler
-  # Wrapper for the Snorkeler REST API
+  # Wrapper for the Snorkeler API
   class Client
     include Snorkeler::API::Data
     include Snorkeler::Configurable

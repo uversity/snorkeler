@@ -4,6 +4,7 @@ module Snorkeler
   module Configurable
     extend Forwardable
     attr_accessor :endpoint, :middleware, :connection_options
+    # see http://ruby-doc.org/stdlib-1.9.3/libdoc/forwardable/rdoc/Forwardable.html
     def_delegator :options, :hash
 
     class << self
@@ -21,7 +22,7 @@ module Snorkeler
     # Convenience method to allow configuration options to be set in a block
     #
     # @raise [ Snorkeler::Error::ConfigurationError] Error is raised when supplied
-    #    Snorkeler credentials are not a String or Symbol.
+    #    Snorkeler options are not a String or Symbol.
     def configure
       yield self
       self
